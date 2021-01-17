@@ -1,9 +1,15 @@
 import React, { useState} from 'react'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 import Movies from './components/Movies'
 import Nominees from './components/Nominees'
 import Search from './components/Search'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
+
+const Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />
+}
 
 const App = () => {
     const api_key = process.env.REACT_APP_API_KEY
@@ -11,6 +17,7 @@ const App = () => {
     const [searchValue,setSearchValue] = useState('') 
     const [cookies, setCookie] = useCookies(['nominees'])
     const [nominees, setNominees] = useState(cookies.nominees)
+    const [open, setOpen] = useState(false) 
     const searchMovies = (event) => {
         event.preventDefault()
         axios
@@ -31,6 +38,7 @@ const App = () => {
         let newNominees = [...nominees]
         newNominees = newNominees.concat(nominee)
         setNominees(newNominees)
+        setOpen(newNominees.length === 5)
         setCookie('nominees',newNominees, { path: '/' })
     } 
     const removeNominee = (removedNominee) => {
@@ -39,6 +47,12 @@ const App = () => {
         setNominees(newNominees)
         setCookie('nominees',newNominees, { path: '/' })
     }
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return
+        }
+        setOpen(false)
+    }
     return (
         <div>
             <Search handleSearchChange = {handleSearchChange} searchValue = {searchValue} search = {searchMovies}/>
@@ -46,6 +60,11 @@ const App = () => {
             <Nominees nominees = {nominees} removeNominee = {removeNominee}/>
             <h2> Search Results </h2>
             <Movies movies = {movies} nominate = {nominate} nominees = {nominees} />
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success">
+                    You have reached the maximum of 5 nominations!
+                </Alert>
+            </Snackbar>
         </div>
     )
 }
