@@ -60,7 +60,7 @@ const App = () => {
     // method to call an API to OMDB with caching functionality
     const searchMovies = (event) => {
         event.preventDefault()
-        let url = 'http://www.omdbapi.com/?apikey=' + api_key + '&s=' + title + '&y=' + year + '&page=' + pages + '&type=movie'
+        let url = 'https://www.omdbapi.com/?apikey=' + api_key + '&s=' + title + '&y=' + year + '&page=' + pages + '&type=movie'
         if (cache[url])
         {
             setMovies(cache[url])
