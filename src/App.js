@@ -69,14 +69,23 @@ const App = () => {
                     console.error(error)
                 })
     }
+    const state = {
+        regexp : /^[0-9\b]+$/
+    }
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
     }
     const handleYearChange = (event) => {
-        setYear(event.target.value)
+        let year = event.target.value
+        if (year === '' || state.regexp.test(year)) {
+            setYear(event.target.value)
+        }
     }
     const handlePagesChange = (event) => {
-        setPages(event.target.value)
+        let page = event.target.value
+        if (page === '' || state.regexp.test(page)) {
+            setPages(event.target.value)
+        }
     }
     const nominate = (nominee) => {
         let newNominees = [...nominees]
@@ -96,6 +105,12 @@ const App = () => {
           return
         }
         setOpen(false)
+    }
+    const reset = () => {
+        setMovies([])
+        setYear('')
+        setPages('')
+        setTitle('')
     }
     return (
         <div className={classes.root}>
@@ -117,7 +132,7 @@ const App = () => {
                     </Grid>
                     <Grid className={classes.center} item xs={11} md={10} lg={9} xl={8}>
                         <Paper className={classes.paper}> 
-                            <Search handleTitleChange = {handleTitleChange} handlePagesChange = {handlePagesChange} handleYearChange = {handleYearChange} title = {title} search = {searchMovies}/> 
+                            <Search handleTitleChange = {handleTitleChange} handlePagesChange = {handlePagesChange} handleYearChange = {handleYearChange} title = {title} pages= {pages} year = {year} search = {searchMovies} reset = {reset}/> 
                         </Paper>
                     </Grid>
                 <Grid className={classes.center} item xs={11} md={10} lg={9} xl={8}>
