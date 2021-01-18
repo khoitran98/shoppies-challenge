@@ -142,7 +142,7 @@ const App = () => {
                             aria-controls='panel1a-content'
                             id='panel1a-header'
                             >
-                                <h2 className={classes.header} > Nomination List ({nominees.length}) </h2>
+                                <h2 className={classes.header} > Nomination List ({ nominees && nominees.length}) </h2>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Nominees nominees = {nominees} removeNominee = {removeNominee}/>

@@ -11,7 +11,7 @@ const Nominees = (props) => {
     const classes = useStyles()
     return ( 
         <ul className = {classes.fullWidth}>
-            {props.nominees.map((nominee, i) => 
+            {props.nominees && props.nominees.map((nominee, i) => 
             <Nominee key={i} nominee = {nominee} removeNominee = {props.removeNominee} />
             )}
         </ul>
