@@ -20,12 +20,16 @@ const useStyles = makeStyles((theme) => ({
 // Component for a single nominated movie
 const Nominee = ({nominee, removeNominee}) => {
   const classes = useStyles()
+  const defaultImageUrl = 'https://nelowvision.com/wp-content/uploads/2018/11/Picture-Unavailable.jpg'
+  const addDefaultSrc = (e) => {
+    e.target.src = defaultImageUrl
+  }
   return (
     <div>
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase className={classes.image}>
-            <img className={classes.img} alt='complex' src= {nominee.Poster} />
+            <img onError={addDefaultSrc} className={classes.img} alt='complex' src= {nominee.Poster} />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>

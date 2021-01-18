@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 // Component for a single movie in search results
 const Movie = ({movie, nominate, nominees, }) => {
   const classes = useStyles()
+  const defaultImageUrl = 'https://nelowvision.com/wp-content/uploads/2018/11/Picture-Unavailable.jpg'
   // A function to check for whether this movie has already been nominated
   const isDisabled = (movie) => {
     let nominee = null
@@ -26,12 +27,15 @@ const Movie = ({movie, nominate, nominees, }) => {
       nominee = nominees.find(nominee => nominee.imdbID === movie.imdbID)
     return (nominee != null || nominees.length === 5)
   }
+  const addDefaultSrc = (e) => {
+    e.target.src = defaultImageUrl
+  }
   return (
     <div>
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase className={classes.image}>
-            <img className={classes.img} alt='complex' src= {movie.Poster} />
+            <img onError={addDefaultSrc} className={classes.img} alt='complex' src= {movie.Poster} />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>
