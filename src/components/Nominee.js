@@ -5,10 +5,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ButtonBase from '@material-ui/core/ButtonBase'
 const useStyles = makeStyles((theme) => ({
-  image: {
-    width: 128,
-    height: 128,
-  },
   img: {
     margin: 'auto',
     display: 'block',
@@ -20,19 +16,20 @@ const useStyles = makeStyles((theme) => ({
 // Component for a single nominated movie
 const Nominee = ({nominee, removeNominee}) => {
   const classes = useStyles()
-  const defaultImageUrl = 'https://nelowvision.com/wp-content/uploads/2018/11/Picture-Unavailable.jpg'
+  // change to default image if poster fails to load
+  const defaultImageUrl = 'https://nelowvision.com/wp-content/uploads/2018/11/Picture-Unavailable.jpg' 
   const addDefaultSrc = (e) => {
     e.target.src = defaultImageUrl
   }
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item>
-          <ButtonBase className={classes.image}>
+        <Grid item xs={12} sm = {3}>
+          <ButtonBase>
             <img onError={addDefaultSrc} className={classes.img} alt='complex' src= {nominee.Poster} />
           </ButtonBase>
         </Grid>
-        <Grid item xs={12} sm container>
+        <Grid item xs={12} sm = {9} container>
           <Grid item xs container direction='column' spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant='subtitle1'>
@@ -46,7 +43,7 @@ const Nominee = ({nominee, removeNominee}) => {
               </Typography>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} sm = {3}>
             <Button onClick ={() => removeNominee(nominee)} variant='contained'> Remove </Button>
           </Grid>
         </Grid>

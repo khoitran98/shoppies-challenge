@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid'
 const Search = (props) => {
     return (
         <div>
-            <h2> Search for movies on OMDB</h2>
+            <h2> Search for movies </h2>
             <Grid container spacing={2}>
                 <Grid item xs ={12} md = {8} >
                     <TextField label='Title' variant='filled' fullWidth value = {props.title} onChange = {props.handleTitleChange} />

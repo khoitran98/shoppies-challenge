@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState} from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import Accordion from '@material-ui/core/Accordion'
@@ -49,17 +49,18 @@ const Alert = (props) => {
 const App = () => {
     const classes = useStyles()
     const api_key = process.env.REACT_APP_API_KEY
-    const [movies, setMovies] = useState([])
-    const [title,setTitle] = useState('') 
-    const [pages,setPages] = useState('')
-    const [year,setYear] = useState('')  
-    const [cookies, setCookie] = useCookies(['nominees'])
-    const [nominees, setNominees] = useState(cookies.nominees)
+    const [movies, setMovies] = useState([])   // list of movies in search results
+    const [title,setTitle] = useState('')   // title input
+    const [pages,setPages] = useState('')   // page number input
+    const [year,setYear] = useState('')    // year input  
+    const [cookies, setCookie] = useCookies(['nominees']) // cookies to hold nomination list to browser
+    const [nominees, setNominees] = useState(cookies.nominees)   // list of nominated movie
     const [open, setOpen] = useState(false) 
-    const [cache, setCache] = useState({})
+    const [cache, setCache] = useState({})   // cache to hold API requests and responses
+    // method to call an API to OMDB with caching functionality
     const searchMovies = (event) => {
         event.preventDefault()
-        let url = 'http://www.omdbapi.com/?apikey=' + api_key + '&s=' + title + '&y=' + year + '&page=' + pages + '&type=movie' + '&plot=full'
+        let url = 'http://www.omdbapi.com/?apikey=' + api_key + '&s=' + title + '&y=' + year + '&page=' + pages + '&type=movie'
         if (cache[url])
         {
             setMovies(cache[url])
@@ -85,6 +86,7 @@ const App = () => {
     const state = {
         regexp : /^[0-9\b]+$/
     }
+    // methods to handle input fields change, only allow decimal inputs for year and page number
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
     }
@@ -100,6 +102,7 @@ const App = () => {
             setPages(event.target.value)
         }
     }
+    // method to add movie to nomination list
     const nominate = (nominee) => {
         let newNominees = [...nominees]
         newNominees = newNominees.concat(nominee)
@@ -107,18 +110,21 @@ const App = () => {
         setOpen(newNominees.length === 5)
         setCookie('nominees',newNominees, { path: '/' })
     } 
+    // method to remove nominee from the nomination list
     const removeNominee = (removedNominee) => {
         let newNominees = [...nominees]
         newNominees = newNominees.filter(nominee => nominee.imdbID !== removedNominee.imdbID)
         setNominees(newNominees)
         setCookie('nominees',newNominees, { path: '/' })
     }
+    // method to close the banner
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
           return
         }
         setOpen(false)
     }
+    // clear the input fields and the search results
     const reset = () => {
         setMovies([])
         setYear('')
