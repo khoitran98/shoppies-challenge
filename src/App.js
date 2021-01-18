@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import Accordion from '@material-ui/core/Accordion'
@@ -56,18 +56,31 @@ const App = () => {
     const [cookies, setCookie] = useCookies(['nominees'])
     const [nominees, setNominees] = useState(cookies.nominees)
     const [open, setOpen] = useState(false) 
+    const [cache, setCache] = useState({})
     const searchMovies = (event) => {
         event.preventDefault()
-        axios
-            .get('http://www.omdbapi.com/?apikey=' + api_key + '&s=' + title + '&y=' + year + '&page=' + pages + '&type=movie' + '&plot=full')
+        let url = 'http://www.omdbapi.com/?apikey=' + api_key + '&s=' + title + '&y=' + year + '&page=' + pages + '&type=movie' + '&plot=full'
+        if (cache[url])
+        {
+            setMovies(cache[url])
+        }
+        else
+        {
+            axios
+            .get(url)
             .then(response => {
                 if (response.data.Response === 'False')
                     return
                 console.log(response.data)
+                let newCache = {}
+                Object.assign(newCache, cache)
+                newCache[url] = response.data.Search
+                setCache(newCache)
                 setMovies(response.data.Search)
                 }).catch((error) => {
                     console.error(error)
-                })
+            })
+        }
     }
     const state = {
         regexp : /^[0-9\b]+$/
