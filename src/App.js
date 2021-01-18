@@ -54,7 +54,7 @@ const App = () => {
     const [pages,setPages] = useState('')   // page number input
     const [year,setYear] = useState('')    // year input  
     const [cookies, setCookie] = useCookies(['nominees']) // cookies to hold nomination list to browser
-    const [nominees, setNominees] = useState(cookies.nominees)   // list of nominated movie
+    const [nominees, setNominees] = useState(cookies.nominees || [])   // list of nominated movie
     const [open, setOpen] = useState(false) 
     const [cache, setCache] = useState({})   // cache to hold API requests and responses
     // method to call an API to OMDB with caching functionality

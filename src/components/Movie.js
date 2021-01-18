@@ -20,7 +20,9 @@ const Movie = ({movie, nominate, nominees, }) => {
   const isDisabled = (movie) => {
     let nominee = null
     if (nominees.length > 0)
+    {
       nominee = nominees.find(nominee => nominee.imdbID === movie.imdbID)
+    }
     return (nominee != null || nominees.length === 5)
   }
   // change to default image if poster fails to load
